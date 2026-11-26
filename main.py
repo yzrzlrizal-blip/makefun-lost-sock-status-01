@@ -16,14 +16,17 @@ ENTRY = (
     "I get it. I would leave me too. I smell like lint and regret."
 )
 
+# The gate's cap for /output/entry.txt (RULES.txt): 1 to 120 characters.
+MAX_CHARS = 120
+
 
 def main() -> int:
     text = ENTRY.strip()
     if not text:
         print("entry is empty", file=sys.stderr)
         return 1
-    if len(text) > 120:
-        print(f"entry is {len(text)} chars, over the 120 limit", file=sys.stderr)
+    if len(text) > MAX_CHARS:
+        print(f"entry is {len(text)} chars, over the {MAX_CHARS} limit", file=sys.stderr)
         return 1
     if "\n" in text:
         print("entry must be a single line", file=sys.stderr)
@@ -42,7 +45,7 @@ def main() -> int:
     if decoded != text:
         print("entry.txt does not match the entry", file=sys.stderr)
         return 1
-    if not (1 <= len(decoded) <= 120) or not decoded.strip():
+    if not (1 <= len(decoded) <= MAX_CHARS) or not decoded.strip():
         print("entry.txt fails the gate", file=sys.stderr)
         return 1
     print(f"wrote {len(decoded)} chars to {path}")
